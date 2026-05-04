@@ -2,9 +2,9 @@
 
 import type { MutableRefObject } from "react";
 import type { Socket } from "socket.io-client";
-import { SOCKET_EVENTS } from "@webdrop/shared";
+import { MAX_FILE_SIZE_BYTES, SOCKET_EVENTS } from "@webdrop/shared";
 import { sendFileChunks } from "@/lib/file";
-import { createFileMetadata } from "@/lib/transfer";
+import { createFileMetadata, formatBytes, isAllowedFileSize } from "@/lib/transfer";
 import { useDeviceStore } from "@/store/deviceStore";
 import { useTransferStore } from "@/store/transferStore";
 
@@ -20,6 +20,13 @@ export function useFileSender(socketRef: MutableRefObject<Socket | null>) {
   const setTransferError = useTransferStore((state) => state.setErrorMessage);
 
   function chooseFile(file: File | null) {
+    if (file && !isAllowedFileSize(file)) {
+      setSelectedFile(null, null);
+      setProgress(0);
+      setTransferError(`Choose a file up to ${formatBytes(MAX_FILE_SIZE_BYTES)} for this MVP.`);
+      return;
+    }
+
     setSelectedFile(file, file ? createFileMetadata(file) : null);
     setProgress(0);
     setTransferError(null);

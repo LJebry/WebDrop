@@ -1,7 +1,9 @@
 "use client";
 
+import { MAX_FILE_SIZE_BYTES } from "@webdrop/shared";
 import { FolderUp } from "lucide-react";
 import { useState } from "react";
+import { formatBytes } from "@/lib/transfer";
 import { cn } from "@/lib/utils";
 
 type DropZoneProps = {
@@ -42,7 +44,7 @@ export function DropZone({ onFileSelected }: DropZoneProps) {
           <FolderUp className="h-6 w-6" />
         </span>
         <span className="text-sm font-semibold text-[#5e4e3c]">Drop files here to share</span>
-        <span className="text-xs text-[#b09b82]">Tap to browse · Sent peer-to-peer</span>
+        <span className="text-xs text-[#b09b82]">Tap to browse · Max {formatBytes(MAX_FILE_SIZE_BYTES)}</span>
       </span>
     </label>
   );

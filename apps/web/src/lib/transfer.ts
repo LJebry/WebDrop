@@ -1,4 +1,4 @@
-import { FILE_CHUNK_SIZE, type FileMetadata } from "@webdrop/shared";
+import { FILE_CHUNK_SIZE, MAX_FILE_SIZE_BYTES, type FileMetadata } from "@webdrop/shared";
 
 export function createFileMetadata(file: File): FileMetadata {
   return {
@@ -15,4 +15,8 @@ export function formatBytes(bytes: number): string {
   const units = ["B", "KB", "MB", "GB"];
   const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   return `${(bytes / 1024 ** index).toFixed(index === 0 ? 0 : 1)} ${units[index]}`;
+}
+
+export function isAllowedFileSize(file: File): boolean {
+  return file.size <= MAX_FILE_SIZE_BYTES;
 }
