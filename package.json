@@ -1,0 +1,17 @@
+{
+  "name": "webdrop",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "pnpm": "10.33.2",
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.0"
+  }
+}

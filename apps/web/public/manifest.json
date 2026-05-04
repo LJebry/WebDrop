@@ -1,0 +1,10 @@
+{
+  "name": "WebDrop",
+  "short_name": "WebDrop",
+  "description": "Nearby browser-to-browser file transfer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f7f3",
+  "theme_color": "#0f766e",
+  "icons": []
+}

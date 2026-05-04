@@ -1,0 +1,21 @@
+import type { Metadata } from "next";
+import "../styles/globals.css";
+
+export const metadata: Metadata = {
+  title: "WebDrop",
+  description: "Nearby browser-to-browser file transfer."
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <head>
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=pally@400,500,700&f[]=satoshi@400,500,600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}

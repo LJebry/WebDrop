@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --background: 22 92% 94%;
+  --foreground: 32 21% 22%;
+  --card: 0 0% 100% / 0.72;
+  --card-foreground: 32 21% 22%;
+  --popover: 22 92% 96%;
+  --popover-foreground: 32 21% 22%;
+  --primary: 18 65% 56%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 92 25% 87%;
+  --secondary-foreground: 100 25% 28%;
+  --muted: 25 84% 88%;
+  --muted-foreground: 31 20% 60%;
+  --accent: 27 81% 85%;
+  --accent-foreground: 18 58% 44%;
+  --destructive: 0 72% 50%;
+  --border: 32 32% 76%;
+  --input: 32 32% 76%;
+  --ring: 18 65% 56%;
+  --radius: 1.5rem;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: calc(var(--radius) * 0.875);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 5%, #fbd9c4 0, transparent 28%),
+    radial-gradient(circle at 90% 20%, rgba(168, 192, 154, 0.36) 0, transparent 24%),
+    linear-gradient(180deg, #fdeee4 0%, #fbd9c4 100%);
+  color: hsl(var(--foreground));
+  font-family: Satoshi, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.font-display {
+  font-family: Pally, Satoshi, ui-sans-serif, system-ui, sans-serif;
+}
+
+.organic-blob {
+  border-radius: 30% 70% 60% 40% / 50% 30% 70% 50%;
+}
+
+.organic-blob-alt {
+  border-radius: 35% 65% 58% 42% / 42% 35% 65% 58%;
+}
+
+.organic-blob-soft {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+@keyframes wobble-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(1.5deg);
+  }
+  75% {
+    transform: translateY(-2px) rotate(-1deg);
+  }
+}
+
+@keyframes wobble-float-alt {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-4px) rotate(-1.5deg);
+  }
+  70% {
+    transform: translateY(-2px) rotate(1deg);
+  }
+}
+
+@keyframes organic-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.18;
+  }
+  100% {
+    transform: scale(1.12);
+    opacity: 0;
+  }
+}
+
+@keyframes dot-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+.float-1 {
+  animation: wobble-float 4s ease-in-out infinite;
+}
+
+.float-2 {
+  animation: wobble-float-alt 4.5s ease-in-out 0.3s infinite;
+}
+
+.breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.bounce-1 {
+  animation: dot-bounce 1.2s ease-in-out infinite;
+}
+
+.bounce-2 {
+  animation: dot-bounce 1.2s ease-in-out 0.15s infinite;
+}
+
+.bounce-3 {
+  animation: dot-bounce 1.2s ease-in-out 0.3s infinite;
+}
