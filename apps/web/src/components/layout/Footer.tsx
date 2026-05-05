@@ -28,6 +28,19 @@ export function Footer({ peerCount }: FooterProps) {
           <span className="text-xs font-semibold text-[#9a8268]">{peerCount} nearby</span>
         </div>
       </div>
+      <a
+        href="https://www.buymeacoffee.com/jerry.robayo"
+        target="_blank"
+        rel="noreferrer"
+        className="mx-auto mt-3 flex w-fit rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#d97545] focus:ring-offset-2 focus:ring-offset-[#fdeee4]"
+        aria-label="Buy me a coffee"
+      >
+        <img
+          src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee :)&emoji=☕&slug=jerry.robayo&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"
+          alt="Buy me a coffee"
+          className="h-10 w-auto"
+        />
+      </a>
     </footer>
   );
 }
