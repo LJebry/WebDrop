@@ -6,9 +6,10 @@ type DiscoveryStatusProps = {
   status: Status;
   peerCount: number;
   errorMessage: string | null;
+  showWakeHint?: boolean;
 };
 
-export function DiscoveryStatus({ status, peerCount, errorMessage }: DiscoveryStatusProps) {
+export function DiscoveryStatus({ status, peerCount, errorMessage, showWakeHint = false }: DiscoveryStatusProps) {
   return (
     <Card>
       <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -19,6 +20,11 @@ export function DiscoveryStatus({ status, peerCount, errorMessage }: DiscoverySt
           </p>
         </div>
         <ConnectionStatus status={status} />
+        {showWakeHint ? (
+          <p className="rounded-2xl bg-[#fbd9c4]/70 px-3 py-2 text-sm font-semibold text-[#7a6750] sm:basis-full">
+            The signaling server may be waking up. Free hosting can take about a minute after inactivity.
+          </p>
+        ) : null}
         {errorMessage ? <p className="text-sm font-semibold text-destructive sm:basis-full">{errorMessage}</p> : null}
       </CardContent>
     </Card>

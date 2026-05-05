@@ -28,6 +28,7 @@ import { useTransferStore } from "@/store/transferStore";
 
 export default function HomePage() {
   const [initialName, setInitialName] = useState("Browser Device");
+  const [showWakeHint, setShowWakeHint] = useState(false);
   const startedTransferRef = useRef<string | null>(null);
   const socketRef = useSocket();
 
@@ -71,6 +72,16 @@ export default function HomePage() {
     startedTransferRef.current = activeTransferId;
     void startSenderConnection(selectedPeerId);
   }, [activeTransferId, outgoingRequest, selectedPeerId, startSenderConnection, transferPhase]);
+
+  useEffect(() => {
+    if (connectionStatus !== "connecting") {
+      setShowWakeHint(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => setShowWakeHint(true), 6000);
+    return () => window.clearTimeout(timer);
+  }, [connectionStatus]);
 
   function saveDeviceName(nextName: string) {
     localStorage.setItem("webdrop:device-name", nextName);
@@ -149,7 +160,12 @@ export default function HomePage() {
           </CardContent>
         </Card>
 
-        <DiscoveryStatus status={connectionStatus} peerCount={nearbyPeers.length} errorMessage={discoveryError} />
+        <DiscoveryStatus
+          status={connectionStatus}
+          peerCount={nearbyPeers.length}
+          errorMessage={discoveryError}
+          showWakeHint={showWakeHint}
+        />
 
         <div className="grid gap-3.5 lg:grid-cols-[390px_1fr]">
           <Card className="h-fit">
