@@ -26,7 +26,7 @@ function DialogOverlay({ className, ...props }: React.ComponentProps<typeof Dial
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 z-50 bg-[#453a2d]/40 data-[state=closed]:animate-out data-[state=open]:animate-in",
+        "fixed inset-0 z-50 bg-black/55 data-[state=closed]:animate-out data-[state=open]:animate-in",
         className
       )}
       {...props}
@@ -41,7 +41,7 @@ function DialogContent({ className, children, ...props }: React.ComponentProps<t
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-3xl border border-[#edd5a8] bg-[#fdeee4] p-6 text-[#453a2d] shadow-xl",
+          "fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-50 shadow-xl",
           className
         )}
         {...props}
@@ -69,7 +69,7 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
 }
 
 function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
-  return <DialogPrimitive.Description className={cn("text-sm font-medium text-[#9a8268]", className)} {...props} />;
+  return <DialogPrimitive.Description className={cn("text-sm font-medium text-slate-400", className)} {...props} />;
 }
 
 export {

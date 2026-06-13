@@ -22,23 +22,26 @@ export function Header() {
   const hasActivity = Boolean(incomingRequest || outgoingRequest || selectedFileMetadata || download || transferPhase !== "idle");
 
   return (
-    <header className="relative z-10 flex shrink-0 items-center justify-between px-1 pb-3 pt-5 sm:pt-7">
+    <header className="relative z-10 flex shrink-0 items-start justify-between py-6">
       <div className="flex items-center gap-2.5">
-        <span className="organic-blob-soft breathe grid h-10 w-10 place-items-center bg-primary text-primary-foreground shadow-md shadow-[#e8915e]/20">
+        <span className="grid h-12 w-12 place-items-center rounded-full border-4 border-dashed border-[#3f8f86] bg-[#3f8f86]/15 text-[#62b7ad]">
           <Send className="h-5 w-5 -rotate-12" />
         </span>
-        <span className="font-display text-xl font-bold tracking-tight text-[#453a2d]">WebDrop</span>
+        <span>
+          <span className="block font-display text-xl font-bold tracking-tight text-slate-50">WebDrop</span>
+          <span className="block text-sm font-semibold text-slate-300">Web</span>
+        </span>
       </div>
       <div className="flex items-center gap-2">
         <Dialog>
           <DialogTrigger asChild>
             <button
               type="button"
-              className="pressable relative grid h-10 w-10 place-items-center rounded-2xl bg-[#fbd9c4] text-[#7a6750] hover:bg-[#edd5a8]"
+              className="pressable relative grid h-10 w-10 place-items-center rounded-xl bg-slate-900/70 text-slate-300 hover:bg-slate-800"
               aria-label="Activity"
             >
               <Bell className="h-4.5 w-4.5" />
-              {hasActivity ? <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#d97545]" /> : null}
+              {hasActivity ? <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#62b7ad]" /> : null}
             </button>
           </DialogTrigger>
           <DialogContent>
@@ -46,7 +49,7 @@ export function Header() {
               <DialogTitle>Activity</DialogTitle>
               <DialogDescription>Current discovery and transfer status.</DialogDescription>
             </DialogHeader>
-            <div className="grid gap-3 text-sm font-semibold text-[#5e4e3c]">
+            <div className="grid gap-3 text-sm font-semibold text-slate-200">
               <ActivityRow
                 icon={<Wifi className="h-4 w-4" />}
                 label="Nearby discovery"
@@ -78,7 +81,7 @@ export function Header() {
           <DialogTrigger asChild>
             <button
               type="button"
-              className="pressable grid h-10 w-10 place-items-center rounded-2xl bg-[#fbd9c4] text-[#7a6750] hover:bg-[#edd5a8]"
+              className="pressable grid h-10 w-10 place-items-center rounded-xl bg-slate-900/70 text-slate-300 hover:bg-slate-800"
               aria-label="About WebDrop"
             >
               <Ellipsis className="h-5 w-5" />
@@ -89,7 +92,7 @@ export function Header() {
               <DialogTitle>WebDrop details</DialogTitle>
               <DialogDescription>Peer-to-peer sharing for nearby browsers.</DialogDescription>
             </DialogHeader>
-            <div className="grid gap-3 text-sm font-semibold text-[#5e4e3c]">
+            <div className="grid gap-3 text-sm font-semibold text-slate-200">
               <ActivityRow
                 icon={<ShieldCheck className="h-4 w-4" />}
                 label="File path"
@@ -115,10 +118,10 @@ export function Header() {
 
 function ActivityRow({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="flex gap-3 rounded-2xl bg-white/55 p-3 shadow-sm">
-      <span className="organic-blob grid h-9 w-9 shrink-0 place-items-center bg-[#fbd9c4] text-[#d97545]">{icon}</span>
+    <div className="flex gap-3 rounded-xl border border-slate-800 bg-slate-950/35 p-3 shadow-sm">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">{icon}</span>
       <span className="min-w-0">
-        <span className="block text-xs font-bold uppercase tracking-wide text-[#b09b82]">{label}</span>
+        <span className="block text-xs font-bold uppercase tracking-wide text-slate-500">{label}</span>
         <span className="mt-0.5 block break-words leading-5">{value}</span>
       </span>
     </div>

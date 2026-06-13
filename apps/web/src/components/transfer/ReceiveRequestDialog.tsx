@@ -27,13 +27,13 @@ export function ReceiveRequestDialog({ request, open, onAccept, onReject }: Rece
             <DialogTitle>Someone wants to share</DialogTitle>
             <DialogDescription>Accept only if you want to receive this file from the nearby device.</DialogDescription>
           </DialogHeader>
-          <div className="flex items-center gap-3.5 rounded-2xl bg-white/70 p-3.5 shadow-sm">
-            <div className="organic-blob grid h-11 w-11 shrink-0 place-items-center bg-[#fbd9c4] text-[#d97545]">
+          <div className="flex items-center gap-3.5 rounded-xl border border-slate-800 bg-slate-950/35 p-3.5 shadow-sm">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">
               {fileIcon(request.file.type)}
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-[#453a2d]">{request.file.name}</p>
-              <p className="text-xs text-[#b09b82]">{formatBytes(request.file.size)}</p>
+              <p className="truncate text-sm font-semibold text-slate-100">{request.file.name}</p>
+              <p className="text-xs text-slate-500">{formatBytes(request.file.size)}</p>
             </div>
           </div>
           <DialogFooter>

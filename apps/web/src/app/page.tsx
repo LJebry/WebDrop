@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { SOCKET_EVENTS } from "@webdrop/shared";
-import { CloudOff, Laptop, Radar, ShieldCheck, Smartphone } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { MAX_FILE_SIZE_BYTES, SOCKET_EVENTS } from "@webdrop/shared";
+import { CloudOff, HardDrive, Send, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Separator } from "@/components/ui/separator";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { DeviceNameForm } from "@/components/discovery/DeviceNameForm";
@@ -18,6 +15,7 @@ import { SendRequestDialog } from "@/components/transfer/SendRequestDialog";
 import { ReceiveRequestDialog } from "@/components/transfer/ReceiveRequestDialog";
 import { TransferProgress } from "@/components/transfer/TransferProgress";
 import { createDefaultDeviceName } from "@/lib/device";
+import { formatBytes } from "@/lib/transfer";
 import { useNearbyDevices } from "@/hooks/useNearbyDevices";
 import { useSocket } from "@/hooks/useSocket";
 import { useFileSender } from "@/hooks/useFileSender";
@@ -113,121 +111,95 @@ export default function HomePage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6">
-      <Header />
+    <main className="min-h-screen bg-[#111827] text-slate-50">
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 sm:px-8">
+        <Header />
 
-      <section className="grid flex-1 content-start gap-4 pb-4">
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-stretch">
-          <section className="surface-panel overflow-hidden rounded-[2.25rem] p-5 sm:p-7">
-            <div className="flex h-full flex-col justify-between gap-7">
-              <Badge variant="secondary" className="gap-2 bg-white/60">
-                <Radar className="h-3.5 w-3.5" />
-                Nearby sharing
-              </Badge>
-              <div className="grid gap-3">
-                <h1 className="font-display max-w-2xl text-4xl font-bold leading-[0.94] tracking-tight text-[#453a2d] text-balance sm:text-6xl">
-                  Drop files peer-to-peer.
-                </h1>
-                <p className="max-w-[58ch] text-sm font-semibold leading-6 text-[#7a6750] sm:text-base">
-                  Find nearby browsers, request approval, and send chunks directly between devices.
-                </p>
-              </div>
-              <div className="grid gap-2 text-sm font-semibold text-[#7a6750] sm:grid-cols-3">
-                <FeaturePill icon={<Laptop className="h-4 w-4" />} label="Computers" />
-                <FeaturePill icon={<Smartphone className="h-4 w-4" />} label="Phones" />
-                <FeaturePill icon={<ShieldCheck className="h-4 w-4" />} label="No server uploads" />
-              </div>
+        <section className="flex flex-1 flex-col items-center pb-6 pt-8 sm:pt-16">
+          <div className="grid w-full max-w-xl gap-6 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+            <div className="text-center sm:text-right">
+              <p className="text-base font-semibold text-slate-200">You are:</p>
+              <p className="mt-1 text-2xl font-bold text-white">{deviceName || initialName}</p>
             </div>
-          </section>
+            <div className="hidden h-16 w-px bg-slate-700 sm:block" />
+            <div className="text-center sm:text-left">
+              <p className="text-base font-semibold text-slate-200">Limit:</p>
+              <p className="mt-1 text-2xl font-bold text-white">{formatBytes(MAX_FILE_SIZE_BYTES)}</p>
+            </div>
+          </div>
 
-          <section className="surface-panel rounded-[2.25rem] p-5">
-            <div className="mb-4 flex items-start justify-between gap-4">
-              <div>
-                <h2 className="font-display text-base font-bold tracking-tight text-[#453a2d]">This device</h2>
-                <p className="mt-1 text-sm font-medium text-[#9a8268]">Shown to nearby browsers.</p>
-              </div>
-              <span className="organic-blob grid h-11 w-11 shrink-0 place-items-center bg-[#fbd9c4] text-[#d97545]">
-                <Radar className="h-5 w-5" />
+          <div className="mt-7 w-full max-w-xl rounded-2xl border border-slate-800 bg-slate-900/55 p-4">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">
+                <UserRound className="h-5 w-5" />
               </span>
+              <div>
+                <h2 className="text-sm font-bold text-slate-100">Device name</h2>
+                <p className="text-xs font-semibold text-slate-500">This is how nearby browsers see you.</p>
+              </div>
             </div>
             <DeviceNameForm initialName={initialName} onSave={saveDeviceName} />
-          </section>
-        </div>
+          </div>
 
-        <DiscoveryStatus
-          status={connectionStatus}
-          peerCount={nearbyPeers.length}
-          errorMessage={discoveryError}
-          showWakeHint={showWakeHint}
+          <div className="mt-5 w-full">
+            <DiscoveryStatus
+              status={connectionStatus}
+              peerCount={nearbyPeers.length}
+              errorMessage={discoveryError}
+              showWakeHint={showWakeHint}
+            />
+          </div>
+
+          <section className="mt-8 w-full max-w-2xl">
+            <NearbyDeviceList peers={nearbyPeers} selectedPeerId={selectedPeerId} onSelect={setSelectedPeerId} />
+          </section>
+
+          <section className="mt-6 grid w-full max-w-2xl gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h2 className="text-xl font-bold tracking-tight text-white">Send a file</h2>
+                <p className="mt-1 text-sm font-semibold text-slate-400">
+                  {selectedPeer ? `Ready to ask ${selectedPeer.deviceName} to receive.` : "Select a nearby device first."}
+                </p>
+              </div>
+              <span className="inline-flex w-fit items-center gap-2 rounded-lg bg-slate-950/45 px-3 py-2 text-xs font-bold text-slate-300">
+                <HardDrive className="h-3.5 w-3.5 text-[#62b7ad]" />
+                Peer-to-peer
+              </span>
+            </div>
+
+            <DropZone onFileSelected={chooseFile} />
+            <FilePreview file={selectedFileMetadata} />
+
+            <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+              <div className="flex items-start gap-2 rounded-xl bg-slate-950/35 p-3 text-sm font-semibold text-slate-400">
+                <CloudOff className="mt-0.5 h-4 w-4 shrink-0 text-[#62b7ad]" />
+                <p>Receiver approval is required. File bytes do not go through the server.</p>
+              </div>
+              <Button type="button" disabled={!selectedPeer || !selectedFileMetadata} onClick={sendTransferRequest}>
+                <Send className="h-4 w-4" />
+                Send request
+              </Button>
+            </div>
+
+            <TransferProgress phase={transferPhase} progress={progress} download={download} errorMessage={transferError} />
+          </section>
+        </section>
+
+        <SendRequestDialog
+          open={transferPhase === "requesting"}
+          deviceName={selectedPeer?.deviceName || "the receiver"}
+          onCancel={resetTransfer}
+        />
+        <ReceiveRequestDialog
+          open={transferPhase === "incoming"}
+          request={incomingRequest}
+          onAccept={acceptIncomingRequest}
+          onReject={rejectIncomingRequest}
         />
 
-        <div className="grid gap-4 lg:grid-cols-[410px_minmax(0,1fr)]">
-          <Card className="h-fit overflow-hidden">
-            <CardHeader className="pb-3">
-              <CardTitle>Nearby devices</CardTitle>
-              <CardDescription>Tap a device to choose where the file should go.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <NearbyDeviceList peers={nearbyPeers} selectedPeerId={selectedPeerId} onSelect={setSelectedPeerId} />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-col gap-3 pb-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <CardTitle>Send a file</CardTitle>
-                <CardDescription>
-                  {selectedPeer ? `Ready to ask ${selectedPeer.deviceName} to receive.` : "Select a nearby device first."}
-                </CardDescription>
-              </div>
-              {selectedPeer ? <Badge>{selectedPeer.deviceName}</Badge> : <Badge variant="secondary">No device selected</Badge>}
-            </CardHeader>
-            <CardContent className="grid gap-5">
-              <DropZone onFileSelected={chooseFile} />
-              <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-                <FilePreview file={selectedFileMetadata} />
-                <Button
-                  type="button"
-                  className="w-full md:w-auto"
-                  disabled={!selectedPeer || !selectedFileMetadata}
-                  onClick={sendTransferRequest}
-                >
-                  Send request
-                </Button>
-              </div>
-              <Separator />
-              <div className="flex items-start gap-2 rounded-3xl bg-[#fdeee4]/70 p-3 text-sm font-semibold text-[#9a8268]">
-                <CloudOff className="mt-0.5 h-4 w-4 shrink-0 text-[#5f8550]" />
-                <p>Receiver approval is required before WebRTC starts. File bytes do not go through the server.</p>
-              </div>
-              <TransferProgress phase={transferPhase} progress={progress} download={download} errorMessage={transferError} />
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      <SendRequestDialog
-        open={transferPhase === "requesting"}
-        deviceName={selectedPeer?.deviceName || "the receiver"}
-        onCancel={resetTransfer}
-      />
-      <ReceiveRequestDialog
-        open={transferPhase === "incoming"}
-        request={incomingRequest}
-        onAccept={acceptIncomingRequest}
-        onReject={rejectIncomingRequest}
-      />
-
-      <Footer peerCount={nearbyPeers.length} />
+        <Footer peerCount={nearbyPeers.length} />
+      </div>
     </main>
-  );
-}
-
-function FeaturePill({ icon, label }: { icon: ReactNode; label: string }) {
-  return (
-    <span className="soft-shell inline-flex items-center gap-2 rounded-2xl px-3 py-2">
-      <span className="text-[#d97545]">{icon}</span>
-      {label}
-    </span>
   );
 }
