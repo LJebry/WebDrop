@@ -1,13 +1,17 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, children, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
-      className={cn("surface-panel rounded-[2rem] text-card-foreground", className)}
+      className={cn("rounded-[2.25rem] border border-[#edd5a8]/60 bg-white/28 p-1.5 shadow-[0_22px_60px_rgba(94,78,60,0.08)]", className)}
       {...props}
-    />
+    >
+      <div className="min-h-full rounded-[calc(2.25rem-0.375rem)] bg-white/58 text-card-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]">
+        {children}
+      </div>
+    </div>
   );
 }
 

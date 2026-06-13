@@ -125,12 +125,11 @@ export default function HomePage() {
                 Nearby sharing
               </Badge>
               <div className="grid gap-3">
-                <h1 className="font-display max-w-2xl text-3xl font-bold leading-[0.95] tracking-tight text-[#453a2d] sm:text-5xl">
-                  Drop a file. Pick a device. Stay peer-to-peer.
+                <h1 className="font-display max-w-2xl text-4xl font-bold leading-[0.94] tracking-tight text-[#453a2d] text-balance sm:text-6xl">
+                  Drop files peer-to-peer.
                 </h1>
-                <p className="max-w-2xl text-sm font-semibold leading-6 text-[#7a6750] sm:text-base">
-                  WebDrop finds nearby browsers automatically, asks before receiving, then moves chunks directly
-                  between devices.
+                <p className="max-w-[58ch] text-sm font-semibold leading-6 text-[#7a6750] sm:text-base">
+                  Find nearby browsers, request approval, and send chunks directly between devices.
                 </p>
               </div>
               <div className="grid gap-2 text-sm font-semibold text-[#7a6750] sm:grid-cols-3">
