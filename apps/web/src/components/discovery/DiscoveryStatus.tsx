@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/Card";
 import { ConnectionStatus } from "@/components/connection/ConnectionStatus";
 import type { ConnectionStatus as Status } from "@/types/device";
 
@@ -11,13 +10,18 @@ type DiscoveryStatusProps = {
 
 export function DiscoveryStatus({ status, peerCount, errorMessage, showWakeHint = false }: DiscoveryStatusProps) {
   return (
-    <Card>
-      <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
+    <section className="surface-panel rounded-[2rem] px-4 py-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#a8c09a]/30">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#5f8550]" />
+          </span>
+          <span>
           <h2 className="font-display text-sm font-bold tracking-tight text-[#453a2d]">Nearby devices</h2>
           <p className="text-sm font-semibold text-[#b09b82]">
-            {peerCount ? `${peerCount} nearby device found` : "Scanning nearby browsers"}
+            {peerCount ? `${peerCount} nearby ${peerCount === 1 ? "device" : "devices"} found` : "Scanning nearby browsers"}
           </p>
+          </span>
         </div>
         <ConnectionStatus status={status} />
         {showWakeHint ? (
@@ -26,7 +30,7 @@ export function DiscoveryStatus({ status, peerCount, errorMessage, showWakeHint 
           </p>
         ) : null}
         {errorMessage ? <p className="text-sm font-semibold text-destructive sm:basis-full">{errorMessage}</p> : null}
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }

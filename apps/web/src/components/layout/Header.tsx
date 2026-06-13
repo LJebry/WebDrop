@@ -22,7 +22,7 @@ export function Header() {
   const hasActivity = Boolean(incomingRequest || outgoingRequest || selectedFileMetadata || download || transferPhase !== "idle");
 
   return (
-    <header className="relative z-10 flex shrink-0 items-center justify-between px-1 pb-2 pt-6 sm:pt-8">
+    <header className="relative z-10 flex shrink-0 items-center justify-between px-1 pb-3 pt-5 sm:pt-7">
       <div className="flex items-center gap-2.5">
         <span className="organic-blob-soft breathe grid h-10 w-10 place-items-center bg-primary text-primary-foreground shadow-md shadow-[#e8915e]/20">
           <Send className="h-5 w-5 -rotate-12" />
@@ -34,7 +34,7 @@ export function Header() {
           <DialogTrigger asChild>
             <button
               type="button"
-              className="relative grid h-10 w-10 place-items-center rounded-2xl bg-[#fbd9c4] text-[#7a6750] transition-colors hover:bg-[#edd5a8]"
+              className="pressable relative grid h-10 w-10 place-items-center rounded-2xl bg-[#fbd9c4] text-[#7a6750] hover:bg-[#edd5a8]"
               aria-label="Activity"
             >
               <Bell className="h-4.5 w-4.5" />
@@ -78,7 +78,7 @@ export function Header() {
           <DialogTrigger asChild>
             <button
               type="button"
-              className="grid h-10 w-10 place-items-center rounded-2xl bg-[#fbd9c4] text-[#7a6750] transition-colors hover:bg-[#edd5a8]"
+              className="pressable grid h-10 w-10 place-items-center rounded-2xl bg-[#fbd9c4] text-[#7a6750] hover:bg-[#edd5a8]"
               aria-label="About WebDrop"
             >
               <Ellipsis className="h-5 w-5" />

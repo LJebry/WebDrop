@@ -7,7 +7,7 @@ type FooterProps = {
 export function Footer({ peerCount }: FooterProps) {
   return (
     <footer className="shrink-0 px-1 pb-8 pt-4">
-      <div className="mx-auto flex w-full max-w-xl items-center justify-between gap-3 rounded-[28px] border border-[#edd5a8]/70 bg-white/60 px-4 py-3 shadow-md shadow-[#b09b82]/10 backdrop-blur">
+      <div className="surface-panel mx-auto flex w-full max-w-xl items-center justify-between gap-3 rounded-[2rem] px-4 py-3">
         <div className="flex min-w-0 items-center gap-2.5">
           <span className="organic-blob grid h-9 w-9 shrink-0 place-items-center bg-[#a8c09a]/35 text-[#5f8550]">
             <Radar className="h-4 w-4" />
@@ -32,7 +32,7 @@ export function Footer({ peerCount }: FooterProps) {
         href="https://www.buymeacoffee.com/jerry.robayo"
         target="_blank"
         rel="noreferrer"
-        className="mx-auto mt-3 flex w-fit rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#d97545] focus:ring-offset-2 focus:ring-offset-[#fdeee4]"
+        className="mx-auto mt-3 flex w-fit rounded-2xl transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#d97545] focus:ring-offset-2 focus:ring-offset-[#fdeee4]"
         aria-label="Buy me a coffee"
       >
         <img

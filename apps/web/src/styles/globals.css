@@ -21,6 +21,8 @@
   --input: 32 32% 76%;
   --ring: 18 65% 56%;
   --radius: 1.5rem;
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @theme inline {
@@ -56,9 +58,8 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 18% 5%, #fbd9c4 0, transparent 28%),
-    radial-gradient(circle at 90% 20%, rgba(168, 192, 154, 0.36) 0, transparent 24%),
-    linear-gradient(180deg, #fdeee4 0%, #fbd9c4 100%);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0 1px, transparent 1px 18px),
+    linear-gradient(180deg, #fdeee4 0%, #f7e3d1 48%, #e9dfc9 100%);
   color: hsl(var(--foreground));
   font-family: Satoshi, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -81,6 +82,31 @@ a {
 
 .organic-blob-soft {
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.surface-panel {
+  border: 1px solid rgba(237, 213, 168, 0.72);
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: 0 20px 55px rgba(94, 78, 60, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.soft-shell {
+  border: 1px solid rgba(237, 213, 168, 0.58);
+  background: rgba(253, 238, 228, 0.74);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.pressable {
+  transition:
+    transform 150ms var(--ease-out-strong),
+    background-color 150ms var(--ease-out-strong),
+    border-color 150ms var(--ease-out-strong),
+    box-shadow 150ms var(--ease-out-strong);
+}
+
+.pressable:active {
+  transform: scale(0.97);
 }
 
 @keyframes wobble-float {
@@ -143,15 +169,15 @@ a {
 }
 
 .float-1 {
-  animation: wobble-float 4s ease-in-out infinite;
+  animation: wobble-float 4s var(--ease-in-out-strong) infinite;
 }
 
 .float-2 {
-  animation: wobble-float-alt 4.5s ease-in-out 0.3s infinite;
+  animation: wobble-float-alt 4.5s var(--ease-in-out-strong) 0.3s infinite;
 }
 
 .breathe {
-  animation: breathe 3s ease-in-out infinite;
+  animation: breathe 3s var(--ease-in-out-strong) infinite;
 }
 
 .bounce-1 {

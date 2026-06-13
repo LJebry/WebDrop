@@ -10,10 +10,10 @@ type NearbyDeviceListProps = {
 
 export function NearbyDeviceList({ peers, selectedPeerId, onSelect }: NearbyDeviceListProps) {
   return (
-    <div className="relative h-[310px] overflow-hidden rounded-3xl bg-white/45 shadow-inner">
-      <span className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#edd5a8]/70" />
-      <span className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#edd5a8]/50" />
-      <span className="absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e8915e]/20 organic-pulse" />
+    <div className="relative h-[336px] overflow-hidden rounded-[2rem] bg-[#fdeee4]/55 shadow-inner">
+      <span className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#edd5a8]/80" />
+      <span className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#edd5a8]/55" />
+      <span className="absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e8915e]/16 organic-pulse" />
       <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
         <div className="organic-blob-soft breathe grid h-20 w-20 place-items-center bg-[#e8915e] text-white shadow-lg shadow-[#e8915e]/25">
           <UserRound className="h-8 w-8" />
@@ -32,7 +32,7 @@ export function NearbyDeviceList({ peers, selectedPeerId, onSelect }: NearbyDevi
           />
         ))
       ) : (
-        <div className="absolute inset-x-8 bottom-7 rounded-2xl bg-white/60 p-3 text-center text-xs font-semibold text-[#b09b82]">
+        <div className="absolute inset-x-8 bottom-7 rounded-2xl bg-white/65 p-3 text-center text-xs font-semibold text-[#9a8268] shadow-sm">
           No nearby devices found yet.
         </div>
       )}
