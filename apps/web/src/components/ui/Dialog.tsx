@@ -41,7 +41,7 @@ function DialogContent({ className, children, ...props }: React.ComponentProps<t
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-50 shadow-xl",
+          "fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-2xl border border-[hsl(var(--panel-border))] bg-[hsl(var(--panel))] p-6 text-foreground shadow-xl",
           className
         )}
         {...props}
@@ -69,7 +69,7 @@ function DialogTitle({ className, ...props }: React.ComponentProps<typeof Dialog
 }
 
 function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
-  return <DialogPrimitive.Description className={cn("text-sm font-medium text-slate-400", className)} {...props} />;
+  return <DialogPrimitive.Description className={cn("text-sm font-medium text-[hsl(var(--muted-text))]", className)} {...props} />;
 }
 
 export {

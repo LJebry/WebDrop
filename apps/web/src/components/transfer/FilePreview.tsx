@@ -8,17 +8,17 @@ type FilePreviewProps = {
 
 export function FilePreview({ file }: FilePreviewProps) {
   if (!file) {
-    return <p className="text-sm font-semibold text-slate-500">No file selected.</p>;
+    return <p className="text-sm font-semibold text-[hsl(var(--subtle-text))]">No file selected.</p>;
   }
 
   return (
-    <div className="flex items-center gap-3.5 rounded-xl border border-slate-800 bg-slate-950/35 p-3.5 shadow-sm">
-      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">
+    <div className="flex items-center gap-3.5 rounded-xl border border-[hsl(var(--panel-border))] bg-[hsl(var(--panel-strong))] p-3.5 shadow-sm">
+      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[hsl(var(--accent-soft))] text-[hsl(var(--accent-bright))]">
         {fileIcon(file.type)}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-slate-100">{file.name}</p>
-        <p className="mt-0.5 text-xs text-slate-500">
+        <p className="truncate text-sm font-semibold text-foreground">{file.name}</p>
+        <p className="mt-0.5 text-xs text-[hsl(var(--subtle-text))]">
           {formatBytes(file.size)} · {file.totalChunks} chunks
         </p>
       </div>

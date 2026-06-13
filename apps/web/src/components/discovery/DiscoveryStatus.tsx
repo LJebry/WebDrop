@@ -10,15 +10,15 @@ type DiscoveryStatusProps = {
 
 export function DiscoveryStatus({ status, peerCount, errorMessage, showWakeHint = false }: DiscoveryStatusProps) {
   return (
-    <section className="mx-auto w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-900/45 px-4 py-3">
+    <section className="mx-auto w-full max-w-2xl rounded-2xl border border-[hsl(var(--panel-border))] bg-[hsl(var(--panel))]/70 px-4 py-3">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-[#3f8f86]/15">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#62b7ad]" />
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-[hsl(var(--accent-soft))]">
+            <span className="h-2.5 w-2.5 rounded-full bg-[hsl(var(--accent-bright))]" />
           </span>
           <span>
-            <h2 className="font-display text-sm font-bold tracking-tight text-slate-100">Nearby devices</h2>
-            <p className="text-sm font-semibold text-slate-400">
+            <h2 className="font-display text-sm font-bold tracking-tight text-foreground">Nearby devices</h2>
+            <p className="text-sm font-semibold text-[hsl(var(--muted-text))]">
               {peerCount ? `${peerCount} nearby ${peerCount === 1 ? "device" : "devices"} found` : "Scanning nearby browsers"}
             </p>
           </span>

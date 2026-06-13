@@ -4,6 +4,16 @@
   color-scheme: dark;
   --background: 222 33% 11%;
   --foreground: 210 40% 96%;
+  --panel: 224 34% 13%;
+  --panel-muted: 224 31% 15%;
+  --panel-strong: 226 39% 9%;
+  --panel-border: 219 28% 21%;
+  --muted-text: 218 18% 67%;
+  --subtle-text: 218 14% 50%;
+  --accent-soft: 174 35% 38% / 0.15;
+  --accent-line: 174 35% 38% / 0.35;
+  --accent-bright: 174 47% 61%;
+  --shadow-color: 0 0% 0% / 0.18;
   --card: 220 28% 15%;
   --card-foreground: 210 40% 96%;
   --popover: 220 28% 13%;
@@ -23,6 +33,32 @@
   --radius: 0.875rem;
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --background: 200 38% 97%;
+  --foreground: 216 28% 14%;
+  --panel: 0 0% 100%;
+  --panel-muted: 210 32% 95%;
+  --panel-strong: 212 36% 92%;
+  --panel-border: 213 24% 86%;
+  --muted-text: 215 15% 42%;
+  --subtle-text: 215 13% 57%;
+  --accent-soft: 174 35% 38% / 0.12;
+  --accent-line: 174 35% 38% / 0.35;
+  --accent-bright: 174 41% 34%;
+  --shadow-color: 214 30% 30% / 0.1;
+  --card: 0 0% 100%;
+  --card-foreground: 216 28% 14%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 216 28% 14%;
+  --secondary: 210 32% 95%;
+  --secondary-foreground: 216 28% 14%;
+  --muted: 210 32% 95%;
+  --muted-foreground: 215 15% 42%;
+  --border: 213 24% 86%;
+  --input: 213 24% 86%;
 }
 
 @theme inline {
@@ -57,7 +93,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: #111827;
+  background: hsl(var(--background));
   color: hsl(var(--foreground));
   font-family: Satoshi, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -74,6 +110,13 @@ body::before {
     radial-gradient(circle at 84% 0%, rgba(30, 64, 175, 0.14), transparent 26%);
 }
 
+html[data-theme="light"] body::before {
+  opacity: 0.75;
+  background-image:
+    radial-gradient(circle at 18% 8%, rgba(95, 162, 154, 0.2), transparent 28%),
+    radial-gradient(circle at 82% 0%, rgba(190, 210, 219, 0.55), transparent 26%);
+}
+
 body::after {
   position: fixed;
   inset: 0;
@@ -84,6 +127,11 @@ body::after {
   background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
   background-size: 36px 36px;
   mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+html[data-theme="light"] body::after {
+  opacity: 0.22;
+  background-image: linear-gradient(90deg, rgba(71, 85, 105, 0.18) 1px, transparent 1px);
 }
 
 a {
@@ -107,14 +155,14 @@ a {
 }
 
 .surface-panel {
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  background: rgba(17, 24, 39, 0.74);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+  border: 1px solid hsl(var(--panel-border));
+  background: hsl(var(--panel) / 0.74);
+  box-shadow: 0 24px 70px hsl(var(--shadow-color));
 }
 
 .soft-shell {
-  border: 1px solid rgba(148, 163, 184, 0.16);
-  background: rgba(31, 41, 55, 0.78);
+  border: 1px solid hsl(var(--panel-border));
+  background: hsl(var(--panel-muted) / 0.78);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 

@@ -12,13 +12,13 @@ type TransferProgressProps = {
 export function TransferProgress({ phase, progress, download, errorMessage }: TransferProgressProps) {
   return (
     <div className="space-y-3">
-      <div className="h-2 overflow-hidden rounded-full bg-slate-800">
+      <div className="h-2 overflow-hidden rounded-full bg-[hsl(var(--panel-strong))]">
         <div
           className="h-full bg-[#62b7ad] transition-[width] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <p className="text-sm font-semibold text-slate-500">{labelForPhase(phase, progress)}</p>
+      <p className="text-sm font-semibold text-[hsl(var(--subtle-text))]">{labelForPhase(phase, progress)}</p>
       {errorMessage ? <p className="text-sm font-semibold text-destructive">{errorMessage}</p> : null}
       {download ? (
         <Button asChild>

@@ -113,27 +113,27 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#111827] text-slate-50">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 sm:px-8">
         <Header />
 
         <section className="flex flex-1 flex-col items-center pb-6 pt-7 sm:pt-12">
-          <div className="w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-900/55 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.16)]">
+          <div className="w-full max-w-2xl rounded-2xl border border-[hsl(var(--panel-border))] bg-[hsl(var(--panel))]/80 p-4 shadow-[0_24px_70px_hsl(var(--shadow-color))]">
             <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
               <div className="flex min-w-0 items-center gap-3">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[hsl(var(--accent-soft))] text-[hsl(var(--accent-bright))]">
                   <UserRound className="h-5 w-5" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-slate-500">You are</p>
-                  <h1 className="truncate text-2xl font-bold tracking-tight text-white">{deviceName || initialName}</h1>
+                  <p className="text-xs font-semibold text-[hsl(var(--subtle-text))]">You are</p>
+                  <h1 className="truncate text-2xl font-bold tracking-tight text-foreground">{deviceName || initialName}</h1>
                 </div>
               </div>
 
               <div className="flex items-center justify-between gap-3 sm:justify-end">
-                <div className="rounded-xl bg-slate-950/45 px-3 py-2 text-right">
-                  <p className="text-[11px] font-semibold text-slate-500">File limit</p>
-                  <p className="text-sm font-bold text-slate-100">{formatBytes(MAX_FILE_SIZE_BYTES)}</p>
+                <div className="rounded-xl bg-[hsl(var(--panel-strong))] px-3 py-2 text-right">
+                  <p className="text-[11px] font-semibold text-[hsl(var(--subtle-text))]">File limit</p>
+                  <p className="text-sm font-bold text-foreground">{formatBytes(MAX_FILE_SIZE_BYTES)}</p>
                 </div>
                 <Button type="button" variant="outline" size="sm" onClick={() => setIsRenaming((value) => !value)}>
                   <Pencil className="h-3.5 w-3.5" />
@@ -143,7 +143,7 @@ export default function HomePage() {
             </div>
 
             {isRenaming ? (
-              <div className="mt-4 border-t border-slate-800 pt-4">
+              <div className="mt-4 border-t border-[hsl(var(--panel-border))] pt-4">
                 <DeviceNameForm initialName={initialName} onSave={saveDeviceName} />
               </div>
             ) : null}
@@ -162,16 +162,16 @@ export default function HomePage() {
             <NearbyDeviceList peers={nearbyPeers} selectedPeerId={selectedPeerId} onSelect={setSelectedPeerId} />
           </section>
 
-          <section className="mt-6 grid w-full max-w-2xl gap-4 rounded-2xl border border-slate-800 bg-slate-900/70 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+          <section className="mt-6 grid w-full max-w-2xl gap-4 rounded-2xl border border-[hsl(var(--panel-border))] bg-[hsl(var(--panel))]/85 p-4 shadow-[0_24px_70px_hsl(var(--shadow-color))]">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <h2 className="text-xl font-bold tracking-tight text-white">Send a file</h2>
-                <p className="mt-1 text-sm font-semibold text-slate-400">
+                <h2 className="text-xl font-bold tracking-tight text-foreground">Send a file</h2>
+                <p className="mt-1 text-sm font-semibold text-[hsl(var(--muted-text))]">
                   {selectedPeer ? `Ready to ask ${selectedPeer.deviceName} to receive.` : "Select a nearby device first."}
                 </p>
               </div>
-              <span className="inline-flex w-fit items-center gap-2 rounded-lg bg-slate-950/45 px-3 py-2 text-xs font-bold text-slate-300">
-                <HardDrive className="h-3.5 w-3.5 text-[#62b7ad]" />
+              <span className="inline-flex w-fit items-center gap-2 rounded-lg bg-[hsl(var(--panel-strong))] px-3 py-2 text-xs font-bold text-[hsl(var(--muted-text))]">
+                <HardDrive className="h-3.5 w-3.5 text-[hsl(var(--accent-bright))]" />
                 Peer-to-peer
               </span>
             </div>
@@ -180,8 +180,8 @@ export default function HomePage() {
             <FilePreview file={selectedFileMetadata} />
 
             <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
-              <div className="flex items-start gap-2 rounded-xl bg-slate-950/35 p-3 text-sm font-semibold text-slate-400">
-                <CloudOff className="mt-0.5 h-4 w-4 shrink-0 text-[#62b7ad]" />
+              <div className="flex items-start gap-2 rounded-xl bg-[hsl(var(--panel-strong))] p-3 text-sm font-semibold text-[hsl(var(--muted-text))]">
+                <CloudOff className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--accent-bright))]" />
                 <p>Receiver approval is required. File bytes do not go through the server.</p>
               </div>
               <Button type="button" disabled={!selectedPeer || !selectedFileMetadata} onClick={sendTransferRequest}>

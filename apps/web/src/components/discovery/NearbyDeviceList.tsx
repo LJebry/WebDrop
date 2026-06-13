@@ -22,9 +22,9 @@ export function NearbyDeviceList({ peers, selectedPeerId, onSelect }: NearbyDevi
           />
         ))
       ) : (
-        <div className="flex min-h-28 items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-700 bg-slate-950/25 p-5 text-center">
-          <Search className="h-5 w-5 text-slate-500" />
-          <p className="text-sm font-semibold text-slate-400">No nearby devices found yet.</p>
+        <div className="flex min-h-28 items-center justify-center gap-3 rounded-2xl border border-dashed border-[hsl(var(--panel-border))] bg-[hsl(var(--panel-strong))]/70 p-5 text-center">
+          <Search className="h-5 w-5 text-[hsl(var(--subtle-text))]" />
+          <p className="text-sm font-semibold text-[hsl(var(--muted-text))]">No nearby devices found yet.</p>
         </div>
       )}
     </div>
