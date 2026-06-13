@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MAX_FILE_SIZE_BYTES, SOCKET_EVENTS } from "@webdrop/shared";
-import { CloudOff, HardDrive, Send, UserRound } from "lucide-react";
+import { CloudOff, HardDrive, Pencil, Send, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -27,6 +27,7 @@ import { useTransferStore } from "@/store/transferStore";
 export default function HomePage() {
   const [initialName, setInitialName] = useState("Browser Device");
   const [showWakeHint, setShowWakeHint] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
   const startedTransferRef = useRef<string | null>(null);
   const socketRef = useSocket();
 
@@ -84,6 +85,7 @@ export default function HomePage() {
   function saveDeviceName(nextName: string) {
     localStorage.setItem("webdrop:device-name", nextName);
     setDeviceName(nextName);
+    setIsRenaming(false);
   }
 
   function acceptIncomingRequest() {
@@ -115,30 +117,36 @@ export default function HomePage() {
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 sm:px-8">
         <Header />
 
-        <section className="flex flex-1 flex-col items-center pb-6 pt-8 sm:pt-16">
-          <div className="grid w-full max-w-xl gap-6 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
-            <div className="text-center sm:text-right">
-              <p className="text-base font-semibold text-slate-200">You are:</p>
-              <p className="mt-1 text-2xl font-bold text-white">{deviceName || initialName}</p>
-            </div>
-            <div className="hidden h-16 w-px bg-slate-700 sm:block" />
-            <div className="text-center sm:text-left">
-              <p className="text-base font-semibold text-slate-200">Limit:</p>
-              <p className="mt-1 text-2xl font-bold text-white">{formatBytes(MAX_FILE_SIZE_BYTES)}</p>
-            </div>
-          </div>
+        <section className="flex flex-1 flex-col items-center pb-6 pt-7 sm:pt-12">
+          <div className="w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-900/55 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.16)]">
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">
+                  <UserRound className="h-5 w-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-slate-500">You are</p>
+                  <h1 className="truncate text-2xl font-bold tracking-tight text-white">{deviceName || initialName}</h1>
+                </div>
+              </div>
 
-          <div className="mt-7 w-full max-w-xl rounded-2xl border border-slate-800 bg-slate-900/55 p-4">
-            <div className="mb-3 flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">
-                <UserRound className="h-5 w-5" />
-              </span>
-              <div>
-                <h2 className="text-sm font-bold text-slate-100">Device name</h2>
-                <p className="text-xs font-semibold text-slate-500">This is how nearby browsers see you.</p>
+              <div className="flex items-center justify-between gap-3 sm:justify-end">
+                <div className="rounded-xl bg-slate-950/45 px-3 py-2 text-right">
+                  <p className="text-[11px] font-semibold text-slate-500">File limit</p>
+                  <p className="text-sm font-bold text-slate-100">{formatBytes(MAX_FILE_SIZE_BYTES)}</p>
+                </div>
+                <Button type="button" variant="outline" size="sm" onClick={() => setIsRenaming((value) => !value)}>
+                  <Pencil className="h-3.5 w-3.5" />
+                  Rename
+                </Button>
               </div>
             </div>
-            <DeviceNameForm initialName={initialName} onSave={saveDeviceName} />
+
+            {isRenaming ? (
+              <div className="mt-4 border-t border-slate-800 pt-4">
+                <DeviceNameForm initialName={initialName} onSave={saveDeviceName} />
+              </div>
+            ) : null}
           </div>
 
           <div className="mt-5 w-full">

@@ -1,4 +1,4 @@
-import { Radar, Wifi } from "lucide-react";
+import { Coffee, Radar, Wifi } from "lucide-react";
 
 type FooterProps = {
   peerCount: number;
@@ -7,7 +7,7 @@ type FooterProps = {
 export function Footer({ peerCount }: FooterProps) {
   return (
     <footer className="shrink-0 pb-8 pt-4">
-      <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-3 rounded-2xl border border-slate-800 bg-slate-900/45 px-4 py-3">
+      <div className="mx-auto flex w-full max-w-2xl flex-col gap-3 rounded-2xl border border-slate-800 bg-slate-900/45 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-2.5">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#3f8f86]/15 text-[#62b7ad]">
             <Radar className="h-4 w-4" />
@@ -32,14 +32,10 @@ export function Footer({ peerCount }: FooterProps) {
         href="https://www.buymeacoffee.com/jerry.robayo"
         target="_blank"
         rel="noreferrer"
-        className="mx-auto mt-3 flex w-fit rounded-xl transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#62b7ad] focus:ring-offset-2 focus:ring-offset-[#111827]"
-        aria-label="Buy me a coffee"
+        className="mx-auto mt-3 inline-flex items-center gap-2 rounded-xl border border-[#3f8f86]/35 bg-[#3f8f86]/12 px-3.5 py-2 text-xs font-bold text-[#8edbd2] transition-[background-color,border-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:border-[#62b7ad]/60 hover:bg-[#3f8f86]/20 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#62b7ad] focus:ring-offset-2 focus:ring-offset-[#111827]"
       >
-        <img
-          src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee%20%3A)&emoji=%E2%98%95&slug=jerry.robayo&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"
-          alt="Buy me a coffee"
-          className="h-10 w-auto"
-        />
+        <Coffee className="h-4 w-4" />
+        Support WebDrop
       </a>
     </footer>
   );
