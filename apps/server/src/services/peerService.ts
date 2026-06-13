@@ -37,6 +37,10 @@ export class PeerService {
     return peerId ? this.peersById.get(peerId) : undefined;
   }
 
+  listInternalByNearbyGroup(nearbyGroupId: string): Peer[] {
+    return [...this.peersById.values()].filter((peer) => peer.nearbyGroupId === nearbyGroupId);
+  }
+
   listByNearbyGroup(nearbyGroupId: string): PublicPeer[] {
     return [...this.peersById.values()]
       .filter((peer) => peer.nearbyGroupId === nearbyGroupId)
@@ -54,6 +58,15 @@ export class PeerService {
 
     this.peersById.delete(peer.id);
     this.peerIdBySocketId.delete(socketId);
+    return peer;
+  }
+
+  removeById(peerId: string): Peer | undefined {
+    const peer = this.peersById.get(peerId);
+    if (!peer) return undefined;
+
+    this.peersById.delete(peer.id);
+    this.peerIdBySocketId.delete(peer.socketId);
     return peer;
   }
 }

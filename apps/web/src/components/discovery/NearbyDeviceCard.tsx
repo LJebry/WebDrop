@@ -9,42 +9,33 @@ type NearbyDeviceCardProps = {
   index: number;
 };
 
-const positions = [
-  "left-[8%] top-[12%]",
-  "right-[9%] top-[18%]",
-  "left-[12%] bottom-[13%]",
-  "right-[13%] bottom-[11%]",
-  "left-1/2 top-[5%] -translate-x-1/2"
-];
-
-const blobs = ["organic-blob-alt", "organic-blob", "organic-blob-soft"];
-
 export function NearbyDeviceCard({ peer, selected, onSelect, index }: NearbyDeviceCardProps) {
-  const position = positions[index % positions.length];
-  const blob = blobs[index % blobs.length];
-
   return (
     <button
       type="button"
       onClick={onSelect}
       className={cn(
-        "device-btn absolute flex flex-col items-center transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.96]",
-        position,
-        index % 2 === 0 ? "float-1" : "float-2"
+        "group flex w-full items-center gap-4 rounded-xl border p-4 text-left transition-[background-color,border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.99]",
+        selected
+          ? "border-[#62b7ad] bg-[#3f8f86] text-white shadow-lg shadow-[#3f8f86]/15"
+          : "border-[#3f8f86]/45 bg-[#3d8179] text-white hover:bg-[#438d84]"
       )}
     >
       <span
         className={cn(
-          "grid h-14 w-14 place-items-center border-2 bg-white text-[#5f8550] shadow-md shadow-[#a8c09a]/30",
-          selected ? "border-[#d97545] ring-4 ring-[#e8915e]/25" : "border-[#a8c09a]/70",
-          blob
+          "grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white text-[#3f8f86]",
+          selected ? "ring-4 ring-white/15" : "group-hover:ring-4 group-hover:ring-white/10"
         )}
       >
         {deviceIcon(index)}
       </span>
-      <span className="mt-1.5 max-w-[88px] text-center">
-        <span className="block truncate text-xs font-semibold leading-tight text-[#5e4e3c]">{peer.deviceName}</span>
-        <span className="text-[10px] text-[#b09b82]">{selected ? "Selected" : "Nearby"}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-lg font-bold leading-tight">{peer.deviceName}</span>
+        <span className="mt-1 flex flex-wrap gap-1.5">
+          <span className="rounded-md bg-black/18 px-2 py-0.5 text-xs font-semibold text-white/90">Browser</span>
+          <span className="rounded-md bg-black/18 px-2 py-0.5 text-xs font-semibold text-white/90">WebRTC</span>
+          {selected ? <span className="rounded-md bg-white/20 px-2 py-0.5 text-xs font-semibold text-white">Selected</span> : null}
+        </span>
       </span>
     </button>
   );

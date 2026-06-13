@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SOCKET_EVENTS } from "@webdrop/shared";
-import { Laptop, Leaf, Radar, Smartphone } from "lucide-react";
+import { MAX_FILE_SIZE_BYTES, SOCKET_EVENTS } from "@webdrop/shared";
+import { CloudOff, HardDrive, Pencil, Send, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Separator } from "@/components/ui/separator";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { DeviceNameForm } from "@/components/discovery/DeviceNameForm";
@@ -18,6 +15,7 @@ import { SendRequestDialog } from "@/components/transfer/SendRequestDialog";
 import { ReceiveRequestDialog } from "@/components/transfer/ReceiveRequestDialog";
 import { TransferProgress } from "@/components/transfer/TransferProgress";
 import { createDefaultDeviceName } from "@/lib/device";
+import { formatBytes } from "@/lib/transfer";
 import { useNearbyDevices } from "@/hooks/useNearbyDevices";
 import { useSocket } from "@/hooks/useSocket";
 import { useFileSender } from "@/hooks/useFileSender";
@@ -29,6 +27,7 @@ import { useTransferStore } from "@/store/transferStore";
 export default function HomePage() {
   const [initialName, setInitialName] = useState("Browser Device");
   const [showWakeHint, setShowWakeHint] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
   const startedTransferRef = useRef<string | null>(null);
   const socketRef = useSocket();
 
@@ -86,6 +85,7 @@ export default function HomePage() {
   function saveDeviceName(nextName: string) {
     localStorage.setItem("webdrop:device-name", nextName);
     setDeviceName(nextName);
+    setIsRenaming(false);
   }
 
   function acceptIncomingRequest() {
@@ -113,112 +113,101 @@ export default function HomePage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-5">
-      <Header />
+    <main className="min-h-screen bg-background text-foreground">
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 sm:px-8">
+        <Header />
 
-      <section className="grid flex-1 gap-3.5">
-        <Card className="overflow-hidden">
-          <CardContent className="grid gap-4 p-5 lg:grid-cols-[1fr_380px] lg:items-center">
-            <div className="space-y-3">
-              <Badge variant="secondary" className="gap-2">
-                <Radar className="h-3.5 w-3.5" />
-                Nearby sharing
-              </Badge>
-              <div className="space-y-2">
-                <h2 className="font-display max-w-2xl text-xl font-bold tracking-tight text-[#453a2d] sm:text-3xl">
-                  Send files to friends nearby.
-                </h2>
-                <p className="max-w-2xl text-sm font-semibold leading-6 text-[#9a8268]">
-                  WebDrop finds nearby browsers, asks before receiving, then moves chunks directly from one
-                  browser to another.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2 text-sm font-semibold text-[#9a8268]">
-                <span className="inline-flex items-center gap-2 rounded-2xl bg-white/60 px-3 py-1.5 shadow-sm">
-                  <Laptop className="h-4 w-4 text-[#d97545]" />
-                  Computers
+        <section className="flex flex-1 flex-col items-center pb-6 pt-7 sm:pt-12">
+          <div className="w-full max-w-2xl rounded-2xl border border-[hsl(var(--panel-border))] bg-[hsl(var(--panel))]/80 p-4 shadow-[0_24px_70px_hsl(var(--shadow-color))]">
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[hsl(var(--accent-soft))] text-[hsl(var(--accent-bright))]">
+                  <UserRound className="h-5 w-5" />
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-2xl bg-white/60 px-3 py-1.5 shadow-sm">
-                  <Smartphone className="h-4 w-4 text-[#5f8550]" />
-                  Phones
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-2xl bg-white/60 px-3 py-1.5 shadow-sm">
-                  <Leaf className="h-4 w-4 text-[#7fa06c]" />
-                  Direct transfer
-                </span>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-[hsl(var(--subtle-text))]">You are</p>
+                  <h1 className="truncate text-2xl font-bold tracking-tight text-foreground">{deviceName || initialName}</h1>
+                </div>
               </div>
-            </div>
-            <Card className="bg-white/50">
-              <CardHeader>
-                <CardTitle>This device</CardTitle>
-                <CardDescription>Confirm the name other nearby devices will see.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <DeviceNameForm initialName={initialName} onSave={saveDeviceName} />
-              </CardContent>
-            </Card>
-          </CardContent>
-        </Card>
 
-        <DiscoveryStatus
-          status={connectionStatus}
-          peerCount={nearbyPeers.length}
-          errorMessage={discoveryError}
-          showWakeHint={showWakeHint}
-        />
-
-        <div className="grid gap-3.5 lg:grid-cols-[390px_1fr]">
-          <Card className="h-fit">
-            <CardHeader>
-              <CardTitle>Nearby devices</CardTitle>
-              <CardDescription>Tap a floating friend to select where the file should go.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <NearbyDeviceList peers={nearbyPeers} selectedPeerId={selectedPeerId} onSelect={setSelectedPeerId} />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <CardTitle>Sharing menu</CardTitle>
-                <CardDescription>
-                  {selectedPeer ? `Ready to ask ${selectedPeer.deviceName} to receive.` : "Select a nearby device first."}
-                </CardDescription>
-              </div>
-              {selectedPeer ? <Badge>{selectedPeer.deviceName}</Badge> : <Badge variant="secondary">No device selected</Badge>}
-            </CardHeader>
-            <CardContent className="grid gap-5">
-              <DropZone onFileSelected={chooseFile} />
-              <FilePreview file={selectedFileMetadata} />
-              <Separator />
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm font-semibold text-[#b09b82]">
-                  Receiver approval is required before WebRTC starts.
-                </p>
-                <Button type="button" disabled={!selectedPeer || !selectedFileMetadata} onClick={sendTransferRequest}>
-                  Send transfer request
+              <div className="flex items-center justify-between gap-3 sm:justify-end">
+                <div className="rounded-xl bg-[hsl(var(--panel-strong))] px-3 py-2 text-right">
+                  <p className="text-[11px] font-semibold text-[hsl(var(--subtle-text))]">File limit</p>
+                  <p className="text-sm font-bold text-foreground">{formatBytes(MAX_FILE_SIZE_BYTES)}</p>
+                </div>
+                <Button type="button" variant="outline" size="sm" onClick={() => setIsRenaming((value) => !value)}>
+                  <Pencil className="h-3.5 w-3.5" />
+                  Rename
                 </Button>
               </div>
-              <TransferProgress phase={transferPhase} progress={progress} download={download} errorMessage={transferError} />
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+            </div>
 
-      <SendRequestDialog
-        open={transferPhase === "requesting"}
-        deviceName={selectedPeer?.deviceName || "the receiver"}
-        onCancel={resetTransfer}
-      />
-      <ReceiveRequestDialog
-        open={transferPhase === "incoming"}
-        request={incomingRequest}
-        onAccept={acceptIncomingRequest}
-        onReject={rejectIncomingRequest}
-      />
+            {isRenaming ? (
+              <div className="mt-4 border-t border-[hsl(var(--panel-border))] pt-4">
+                <DeviceNameForm initialName={initialName} onSave={saveDeviceName} />
+              </div>
+            ) : null}
+          </div>
 
-      <Footer peerCount={nearbyPeers.length} />
+          <div className="mt-5 w-full">
+            <DiscoveryStatus
+              status={connectionStatus}
+              peerCount={nearbyPeers.length}
+              errorMessage={discoveryError}
+              showWakeHint={showWakeHint}
+            />
+          </div>
+
+          <section className="mt-8 w-full max-w-2xl">
+            <NearbyDeviceList peers={nearbyPeers} selectedPeerId={selectedPeerId} onSelect={setSelectedPeerId} />
+          </section>
+
+          <section className="mt-6 grid w-full max-w-2xl gap-4 rounded-2xl border border-[hsl(var(--panel-border))] bg-[hsl(var(--panel))]/85 p-4 shadow-[0_24px_70px_hsl(var(--shadow-color))]">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h2 className="text-xl font-bold tracking-tight text-foreground">Send a file</h2>
+                <p className="mt-1 text-sm font-semibold text-[hsl(var(--muted-text))]">
+                  {selectedPeer ? `Ready to ask ${selectedPeer.deviceName} to receive.` : "Select a nearby device first."}
+                </p>
+              </div>
+              <span className="inline-flex w-fit items-center gap-2 rounded-lg bg-[hsl(var(--panel-strong))] px-3 py-2 text-xs font-bold text-[hsl(var(--muted-text))]">
+                <HardDrive className="h-3.5 w-3.5 text-[hsl(var(--accent-bright))]" />
+                Peer-to-peer
+              </span>
+            </div>
+
+            <DropZone onFileSelected={chooseFile} />
+            <FilePreview file={selectedFileMetadata} />
+
+            <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+              <div className="flex items-start gap-2 rounded-xl bg-[hsl(var(--panel-strong))] p-3 text-sm font-semibold text-[hsl(var(--muted-text))]">
+                <CloudOff className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--accent-bright))]" />
+                <p>Receiver approval is required. File bytes do not go through the server.</p>
+              </div>
+              <Button type="button" disabled={!selectedPeer || !selectedFileMetadata} onClick={sendTransferRequest}>
+                <Send className="h-4 w-4" />
+                Send request
+              </Button>
+            </div>
+
+            <TransferProgress phase={transferPhase} progress={progress} download={download} errorMessage={transferError} />
+          </section>
+        </section>
+
+        <SendRequestDialog
+          open={transferPhase === "requesting"}
+          deviceName={selectedPeer?.deviceName || "the receiver"}
+          onCancel={resetTransfer}
+        />
+        <ReceiveRequestDialog
+          open={transferPhase === "incoming"}
+          request={incomingRequest}
+          onAccept={acceptIncomingRequest}
+          onReject={rejectIncomingRequest}
+        />
+
+        <Footer peerCount={nearbyPeers.length} />
+      </div>
     </main>
   );
 }
