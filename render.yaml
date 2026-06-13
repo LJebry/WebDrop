@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: webdrop-server
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: CI=true corepack pnpm install --frozen-lockfile && corepack pnpm run build:server
+    startCommand: corepack pnpm run start:server
+    envVars:
+      - key: CLIENT_ORIGIN
+        value: "*"
