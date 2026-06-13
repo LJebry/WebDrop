@@ -1,11 +1,6 @@
 import { FILE_CHUNK_SIZE, type FileMetadata } from "@webdrop/shared";
 
-export type FileMessage =
-  | { kind: "metadata"; file: FileMetadata }
-  | { kind: "chunk"; index: number; bytes: ArrayBuffer }
-  | { kind: "complete" };
-
-export async function waitForBufferedAmount(channel: RTCDataChannel, maxBufferedAmount = FILE_CHUNK_SIZE * 8) {
+async function waitForBufferedAmount(channel: RTCDataChannel, maxBufferedAmount = FILE_CHUNK_SIZE * 8) {
   ensureOpenDataChannel(channel);
 
   if (channel.bufferedAmount <= maxBufferedAmount) return;
@@ -26,7 +21,7 @@ export async function waitForBufferedAmount(channel: RTCDataChannel, maxBuffered
   });
 }
 
-export function sendDataChannelMessage(channel: RTCDataChannel, message: string | ArrayBuffer) {
+function sendDataChannelMessage(channel: RTCDataChannel, message: string | ArrayBuffer) {
   ensureOpenDataChannel(channel);
   if (typeof message === "string") {
     channel.send(message);

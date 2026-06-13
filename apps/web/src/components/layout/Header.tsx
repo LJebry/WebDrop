@@ -16,14 +16,8 @@ import { useDeviceStore } from "@/store/deviceStore";
 import { useTransferStore } from "@/store/transferStore";
 
 export function Header() {
-  const nearbyPeers = useDeviceStore((state) => state.nearbyPeers);
-  const connectionStatus = useDeviceStore((state) => state.connectionStatus);
-  const incomingRequest = useTransferStore((state) => state.incomingRequest);
-  const outgoingRequest = useTransferStore((state) => state.outgoingRequest);
-  const transferPhase = useTransferStore((state) => state.transferPhase);
-  const progress = useTransferStore((state) => state.progress);
-  const download = useTransferStore((state) => state.download);
-  const selectedFileMetadata = useTransferStore((state) => state.selectedFileMetadata);
+  const { nearbyPeers, connectionStatus } = useDeviceStore();
+  const { incomingRequest, outgoingRequest, transferPhase, progress, download, selectedFileMetadata } = useTransferStore();
 
   const hasActivity = Boolean(incomingRequest || outgoingRequest || selectedFileMetadata || download || transferPhase !== "idle");
 
