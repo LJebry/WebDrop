@@ -36,6 +36,7 @@ export class DiscoveryService {
   }
 
   broadcastNearbyGroup(nearbyGroupId: string): void {
+    this.pruneDisconnectedPeers(nearbyGroupId);
     this.groupService.broadcastPeers(nearbyGroupId, this.peerService.listByNearbyGroup(nearbyGroupId));
   }
 
@@ -46,5 +47,13 @@ export class DiscoveryService {
   private normalizeDeviceName(deviceName: string): string {
     const trimmed = deviceName.trim().slice(0, MAX_DEVICE_NAME_LENGTH);
     return trimmed || "Browser Device";
+  }
+
+  private pruneDisconnectedPeers(nearbyGroupId: string): void {
+    for (const peer of this.peerService.listInternalByNearbyGroup(nearbyGroupId)) {
+      if (!this.io.sockets.sockets.has(peer.socketId)) {
+        this.peerService.removeById(peer.id);
+      }
+    }
   }
 }
