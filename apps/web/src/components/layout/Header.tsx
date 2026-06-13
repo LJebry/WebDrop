@@ -1,7 +1,7 @@
 "use client";
 
 import { MAX_FILE_SIZE_BYTES } from "@webdrop/shared";
-import { Bell, CheckCircle2, Ellipsis, Info, Send, ShieldCheck, Wifi } from "lucide-react";
+import { Bell, CheckCircle2, Coffee, Ellipsis, Info, Send, ShieldCheck, Wifi } from "lucide-react";
 import type { ReactNode } from "react";
 import {
   Dialog,
@@ -22,7 +22,7 @@ export function Header() {
   const hasActivity = Boolean(incomingRequest || outgoingRequest || selectedFileMetadata || download || transferPhase !== "idle");
 
   return (
-    <header className="relative z-10 flex shrink-0 items-start justify-between py-6">
+    <header className="relative z-10 grid shrink-0 grid-cols-[1fr_auto] items-start gap-3 py-6 md:grid-cols-[1fr_auto_1fr]">
       <div className="flex items-center gap-2.5">
         <span className="grid h-12 w-12 place-items-center rounded-full border-4 border-dashed border-[#3f8f86] bg-[#3f8f86]/15 text-[#62b7ad]">
           <Send className="h-5 w-5 -rotate-12" />
@@ -32,7 +32,18 @@ export function Header() {
           <span className="block text-sm font-semibold text-slate-300">Web</span>
         </span>
       </div>
-      <div className="flex items-center gap-2">
+
+      <a
+        href="https://www.buymeacoffee.com/jerry.robayo"
+        target="_blank"
+        rel="noreferrer"
+        className="order-3 col-span-2 mx-auto inline-flex items-center gap-2 rounded-xl border border-[#3f8f86]/35 bg-[#3f8f86]/12 px-3.5 py-2 text-xs font-bold text-[#8edbd2] transition-[background-color,border-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:border-[#62b7ad]/60 hover:bg-[#3f8f86]/20 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#62b7ad] focus:ring-offset-2 focus:ring-offset-[#111827] md:order-none md:col-span-1 md:self-center"
+      >
+        <Coffee className="h-4 w-4" />
+        Support WebDrop
+      </a>
+
+      <div className="flex items-center justify-end gap-2">
         <Dialog>
           <DialogTrigger asChild>
             <button

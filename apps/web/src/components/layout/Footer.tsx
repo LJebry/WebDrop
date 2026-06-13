@@ -1,4 +1,4 @@
-import { Coffee, Radar, Wifi } from "lucide-react";
+import { Radar, Wifi } from "lucide-react";
 
 type FooterProps = {
   peerCount: number;
@@ -28,15 +28,6 @@ export function Footer({ peerCount }: FooterProps) {
           <span className="text-xs font-semibold text-slate-300">{peerCount} nearby</span>
         </div>
       </div>
-      <a
-        href="https://www.buymeacoffee.com/jerry.robayo"
-        target="_blank"
-        rel="noreferrer"
-        className="mx-auto mt-3 inline-flex items-center gap-2 rounded-xl border border-[#3f8f86]/35 bg-[#3f8f86]/12 px-3.5 py-2 text-xs font-bold text-[#8edbd2] transition-[background-color,border-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:border-[#62b7ad]/60 hover:bg-[#3f8f86]/20 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#62b7ad] focus:ring-offset-2 focus:ring-offset-[#111827]"
-      >
-        <Coffee className="h-4 w-4" />
-        Support WebDrop
-      </a>
     </footer>
   );
 }
