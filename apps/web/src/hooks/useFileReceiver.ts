@@ -23,6 +23,8 @@ export function useFileReceiver() {
 
     channel.onopen = () => setTransferPhase("transferring");
     channel.onerror = () => {
+      const { transferPhase, progress } = useTransferStore.getState();
+      if (transferPhase === "complete" || progress >= 100) return;
       setTransferPhase("failed");
       setTransferError("The WebRTC data channel failed.");
     };

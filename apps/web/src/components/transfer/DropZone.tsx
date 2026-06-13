@@ -16,7 +16,7 @@ export function DropZone({ onFileSelected }: DropZoneProps) {
   return (
     <label
       className={cn(
-        "grid min-h-44 cursor-pointer place-items-center rounded-3xl border-2 border-dashed bg-white/60 px-5 py-6 text-center transition-all active:scale-[0.98]",
+        "grid min-h-44 cursor-pointer place-items-center rounded-3xl border-2 border-dashed bg-white/60 px-5 py-6 text-center transition-[background-color,border-color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]",
         dragging ? "border-[#d97545] bg-[#fdeee4]/70" : "border-[#b09b82]/45"
       )}
       onDragEnter={(event) => {

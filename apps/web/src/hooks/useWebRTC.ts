@@ -51,6 +51,7 @@ export function useWebRTC(socketRef: MutableRefObject<Socket | null>, options: U
 
       peerConnection.onconnectionstatechange = () => {
         if (peerConnection.connectionState === "failed" || peerConnection.connectionState === "disconnected") {
+          if (!shouldReportTransferFailure()) return;
           setTransferPhase("failed");
           setTransferError("The WebRTC connection failed.");
         }
@@ -72,11 +73,12 @@ export function useWebRTC(socketRef: MutableRefObject<Socket | null>, options: U
       dataChannelRef.current = channel;
       channel.onopen = () => optionsRef.current.onSenderChannelOpen(channel);
       channel.onerror = () => {
+        if (!shouldReportTransferFailure()) return;
         setTransferPhase("failed");
         setTransferError("The data channel failed before the transfer completed.");
       };
       channel.onclose = () => {
-        if (useTransferStore.getState().transferPhase === "transferring") {
+        if (shouldReportTransferFailure()) {
           setTransferPhase("failed");
           setTransferError("The data channel closed before the transfer completed.");
         }
@@ -151,4 +153,9 @@ export function useWebRTC(socketRef: MutableRefObject<Socket | null>, options: U
     startSenderConnection,
     cleanup
   };
+}
+
+function shouldReportTransferFailure() {
+  const { transferPhase, progress } = useTransferStore.getState();
+  return (transferPhase === "connecting" || transferPhase === "transferring") && progress < 100;
 }

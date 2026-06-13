@@ -28,7 +28,7 @@ export function NearbyDeviceCard({ peer, selected, onSelect, index }: NearbyDevi
       type="button"
       onClick={onSelect}
       className={cn(
-        "device-btn absolute flex flex-col items-center transition active:scale-90",
+        "device-btn absolute flex flex-col items-center transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.96]",
         position,
         index % 2 === 0 ? "float-1" : "float-2"
       )}

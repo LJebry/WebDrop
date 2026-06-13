@@ -13,7 +13,10 @@ export function TransferProgress({ phase, progress, download, errorMessage }: Tr
   return (
     <div className="space-y-3">
       <div className="h-2 overflow-hidden rounded-full bg-[#fbd9c4]">
-        <div className="h-full bg-[#7fa06c] transition-all" style={{ width: `${progress}%` }} />
+        <div
+          className="h-full bg-[#7fa06c] transition-[width] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
+          style={{ width: `${progress}%` }}
+        />
       </div>
       <p className="text-sm font-semibold text-[#b09b82]">{labelForPhase(phase, progress)}</p>
       {errorMessage ? <p className="text-sm font-semibold text-destructive">{errorMessage}</p> : null}

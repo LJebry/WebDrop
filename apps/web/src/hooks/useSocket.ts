@@ -17,6 +17,7 @@ import { useTransferStore } from "@/store/transferStore";
 
 export function useSocket() {
   const socketRef = useRef<Socket | null>(null);
+  const connectionStartedAtRef = useRef(0);
   const deviceName = useDeviceStore((state) => state.deviceName);
   const setConnectionStatus = useDeviceStore((state) => state.setConnectionStatus);
   const setCurrentPeerId = useDeviceStore((state) => state.setCurrentPeerId);
@@ -33,6 +34,7 @@ export function useSocket() {
 
     const socket = createSocket();
     socketRef.current = socket;
+    connectionStartedAtRef.current = Date.now();
     setConnectionStatus("connecting");
 
     socket.on("connect", () => {
@@ -45,8 +47,20 @@ export function useSocket() {
     });
 
     socket.on("connect_error", () => {
+      const elapsed = Date.now() - connectionStartedAtRef.current;
+      if (elapsed < 75000) {
+        setConnectionStatus("connecting");
+        setDeviceError(null);
+        return;
+      }
+
       setConnectionStatus("error");
-      setDeviceError("Could not connect to the signaling server.");
+      setDeviceError("Could not connect to the signaling server. If it was idle, wait a moment and try again.");
+    });
+
+    socket.io.on("reconnect_attempt", () => {
+      setConnectionStatus("connecting");
+      setDeviceError(null);
     });
 
     socket.on(SOCKET_EVENTS.DISCOVERY_PEERS_UPDATED, (peers: PublicPeer[]) => {
