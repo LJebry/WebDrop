@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
+    "build:server": "pnpm --filter @webdrop/shared build && pnpm --filter @webdrop/server build",
     "lint": "turbo lint",
+    "start:server": "pnpm --filter @webdrop/server start",
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
