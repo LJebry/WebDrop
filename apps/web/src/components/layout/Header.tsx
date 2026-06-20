@@ -15,8 +15,10 @@ import { formatBytes } from "@/lib/transfer";
 import { useDeviceStore } from "@/store/deviceStore";
 import { useTransferStore } from "@/store/transferStore";
 
+type Theme = "dark" | "light";
+
 export function Header() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<Theme>("dark");
   const { nearbyPeers, connectionStatus } = useDeviceStore();
   const { incomingRequest, outgoingRequest, transferPhase, progress, download, selectedFileMetadata } = useTransferStore();
 
@@ -26,8 +28,8 @@ export function Header() {
     const savedTheme = localStorage.getItem("webdrop:theme");
     const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
     const nextTheme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : prefersLight ? "light" : "dark";
-    setTheme(nextTheme);
     document.documentElement.dataset.theme = nextTheme;
+    queueMicrotask(() => setTheme(nextTheme));
   }, []);
 
   function toggleTheme() {

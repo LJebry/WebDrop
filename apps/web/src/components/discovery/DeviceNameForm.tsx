@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
@@ -11,10 +11,6 @@ type DeviceNameFormProps = {
 
 export function DeviceNameForm({ initialName, onSave }: DeviceNameFormProps) {
   const [value, setValue] = useState(initialName);
-
-  useEffect(() => {
-    setValue(initialName);
-  }, [initialName]);
 
   return (
     <form
