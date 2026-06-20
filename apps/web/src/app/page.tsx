@@ -60,7 +60,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const savedName = localStorage.getItem("webdrop:device-name") || createDefaultDeviceName();
-    queueMicrotask(() => setInitialName(savedName));
+    setInitialName(savedName);
     setDeviceName(savedName);
   }, [setDeviceName]);
 
@@ -74,20 +74,17 @@ export default function HomePage() {
 
   useEffect(() => {
     if (connectionStatus !== "connecting") {
-      queueMicrotask(() => setShowWakeHint(false));
+      setShowWakeHint(false);
       return;
     }
 
-    queueMicrotask(() => setShowWakeHint(false));
     const timer = window.setTimeout(() => setShowWakeHint(true), 6000);
     return () => window.clearTimeout(timer);
   }, [connectionStatus]);
 
   function saveDeviceName(nextName: string) {
-    const savedName = nextName.trim() || initialName;
-    localStorage.setItem("webdrop:device-name", savedName);
-    setInitialName(savedName);
-    setDeviceName(savedName);
+    localStorage.setItem("webdrop:device-name", nextName);
+    setDeviceName(nextName);
     setIsRenaming(false);
   }
 
@@ -147,7 +144,7 @@ export default function HomePage() {
 
             {isRenaming ? (
               <div className="mt-4 border-t border-[hsl(var(--panel-border))] pt-4">
-                <DeviceNameForm key={deviceName || initialName} initialName={deviceName || initialName} onSave={saveDeviceName} />
+                <DeviceNameForm initialName={initialName} onSave={saveDeviceName} />
               </div>
             ) : null}
           </div>
